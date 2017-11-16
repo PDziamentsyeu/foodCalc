@@ -1,0 +1,31 @@
+{
+  "day":"10.12.2017",
+  "notes":[
+    {
+      "type":"spent",
+      "kal_value":"400",
+      "time":"09.00"
+    },
+    {
+      "type":"spent",
+      "kal_value":"400",
+      "time":"16.00"
+    },
+    {
+      "type":"eaten",
+      "kal_value":"300",
+      "time":"08.00"
+    },
+    {
+      "type":"eaten",
+      "kal_value":"400",
+      "time":"12.00"
+    },
+    {
+      "type":"eaten",
+      "kal_value":"400",
+      "time":"19.00"
+    }
+  ]
+
+}

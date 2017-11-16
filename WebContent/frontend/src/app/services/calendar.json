@@ -1,0 +1,33 @@
+{
+  "id":"325",
+  "user_id": "12",
+  "current_period": "December",
+  "notes":[
+    {
+      "date":"10.12.2017",
+      "spent_kal":"1780",
+      "eaten_kal":"2040"
+    },
+    {
+      "date":"11.12.2017",
+      "spent_kal":"1780",
+      "eaten_kal":"1500"
+    },
+    {
+      "date":"15.12.2017",
+      "spent_kal":"1780",
+      "eaten_kal":"2040"
+    },
+    {
+      "date":"17.12.2017",
+      "spent_kal":"1780",
+      "eaten_kal":"1200"
+    },
+    {
+      "date":"18.12.2017",
+      "spent_kal":"1780",
+      "eaten_kal":"2040"
+    }
+  ]
+
+}

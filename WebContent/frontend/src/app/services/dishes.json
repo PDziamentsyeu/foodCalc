@@ -1,0 +1,56 @@
+{
+  "dishes": [
+    {
+      "id": "1212",
+      "name": "Fried potato",
+      "kal": "192",
+      "consist":"potato"
+    },
+    {
+      "id": "1215",
+      "name": "Fried chicken",
+      "kal": "246",
+      "consist":[
+        {
+          "id":"1223",
+          "name":"chicken"
+        }
+      ]
+    },
+    {
+      "id": "1225",
+      "name": "Greek salad",
+      "kal": "87.7",
+      "consist":[
+        {
+          "id":"1283",
+          "name":"tomato"
+        },
+        {
+          "id":"1253",
+          "name":"cucumber"
+        },
+        {
+          "id":"1263",
+          "name":"bulgarian pepper"
+        },
+        {
+          "id":"1783",
+          "name":"lemon juice"
+        },
+        {
+          "id":"1983",
+          "name":"onion"
+        },
+        {
+          "id":"1123",
+          "name":"brynza"
+        },
+        {
+          "id":"1233",
+          "name":"black olives"
+        }
+      ]
+    }
+  ]
+}
