@@ -46,4 +46,9 @@ ul.ui.list li:before {
   clear: both;
   width: 100%;
 }
+.ui.footer.segment {
+  margin: 5em 0em 0em;
+  padding: 5em 0em;
+  border-radius: .28571429rem;
+}
 

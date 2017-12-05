@@ -1,16 +1,22 @@
 <div class="ui container">
 <div class="ui one column grid">
   <div class="column">
-    <div class="ui primary menu ">
+    <div class="ui primary menu inverted">
 
       <a class="item" [routerLink]="['/home']">Home</a>
-      <a class="item" [routerLink]="['/menus']">My menus</a>
-      <a class="item" [routerLink]="['/dishes']">My dishes</a>
-      <a class="item" [routerLink]="['/calendar']">My fit calendar</a>
+      <a class="item" [routerLink]="['/calculator']">Calculator</a>
+      <a class="item" [routerLink]="['/handbook']">Handbook</a>
+      <a class="item" [routerLink]="['/interesting']">Interesting</a>
+      <a class="item" [routerLink]="['/dishes']">Dishes and recepies</a>
+      <a class="item" [routerLink]="['/about-us']">About us</a>
 
-      <div class="right menu">
-        <a class="item" href="#"><span class=""></span> Sign Up</a>
-        <a class="item" href="#"><span class=""></span> Login</a>
+      <div class="right menu" *ngIf="!authorizedUser()">
+        <a class="item" [routerLink]="['/sign-up']">Sign Up</a>
+        <a class="item" [routerLink]="['/login']">Login</a>
+      </div>
+      <div class="right menu" *ngIf="authorizedUser()">
+        <a class="item" [routerLink]="['/profile']"><span>{{user.firstName}}</span><i class="column spy icon"></i></a>
+        <a class="item" (click)="logout()">Logout</a>
       </div>
     </div>
   </div>

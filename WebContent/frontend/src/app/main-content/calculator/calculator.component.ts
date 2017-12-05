@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-menu-list',
-  templateUrl: './menu-list.component.html',
-  styleUrls: ['./menu-list.component.css']
+  templateUrl: './calculator.component.html'
 })
-export class MenuListComponent implements OnInit {
+export class CalculatorComponent implements OnInit {
 
   constructor() { }
 
