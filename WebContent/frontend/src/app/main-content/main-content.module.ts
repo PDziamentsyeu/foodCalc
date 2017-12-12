@@ -9,7 +9,7 @@ import { HandbookComponent } from './handbook/handbook.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { ProfileComponent } from './src/app/main-content/profile/profile.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [

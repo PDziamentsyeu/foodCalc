@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
@@ -18,6 +18,8 @@ import {SignUpComponent} from "./main-content/sign-up/sign-up.component";
 import {UserService} from "./services/user.service";
 import {AuthenticationService} from "./services/authentication.service";
 import { EqualDirective } from './directives/equal.directive';
+import {ProfileComponent} from "./main-content/profile/profile.component";
+import {ProfileResolveComponent} from "./main-content/profile/profile.resolve.component";
 
 const routes: Routes = [
     // basic routes
@@ -30,6 +32,7 @@ const routes: Routes = [
     { path: 'about-us', component:  AboutUsComponent  },
     { path: 'sign-up', component:  SignUpComponent  },
     { path: 'login', component:  LoginComponent  },
+    { path: 'profile', component:  ProfileComponent, resolve: { profile: ProfileResolveComponent  }}
     // authentication demo
     // { path: 'login', component: LoginComponent },
     // {
@@ -53,17 +56,21 @@ const routes: Routes = [
       AboutUsComponent,
       SignUpComponent,
       LoginComponent,
-      EqualDirective
+      EqualDirective,
+      ProfileComponent
+      // ProfileResolveComponent
   ],
   imports: [
       BrowserModule,
       FormsModule,
       HttpModule,
       RouterModule.forRoot(routes),
+      ReactiveFormsModule
   ],
   providers: [
       UserService,
-      AuthenticationService
+      AuthenticationService,
+      ProfileResolveComponent
   ],
   bootstrap: [AppComponent]
 })

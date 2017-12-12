@@ -6,3 +6,6 @@ Preconditions:
 To run frontend app:
 - in folder frontend/ run 'npm install'
 - run 'npm start'
+
+To run independent backend server:
+WebContent\frontend\db>json-server --watch db.json
