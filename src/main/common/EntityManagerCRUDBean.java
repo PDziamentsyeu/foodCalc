@@ -47,7 +47,6 @@ public class EntityManagerCRUDBean<T> implements EntityManagerCRUDLocal<T> {
 	    private String entityPackage;
 
 	    public EntityManagerCRUDBean() {
-	        // Determine generic package to be used for recognizing local entities
 	        entityPackage = EntityManagerCRUDBean.class.getPackage().getName();
 	        entityPackage = entityPackage.substring(0, entityPackage.length() - ".common.session".length());
 	        em=factory.createEntityManager();
@@ -647,7 +646,8 @@ public class EntityManagerCRUDBean<T> implements EntityManagerCRUDLocal<T> {
 	        return entity;
 	    }
 
-	    protected T getSingleResult(Query query) throws NoResultException {
+	    @SuppressWarnings("unchecked")
+		protected T getSingleResult(Query query) throws NoResultException {
 	        List<T> list = query.getResultList();
 	        if (list.isEmpty()) {
 	            throw new NoResultException();
@@ -705,7 +705,6 @@ public class EntityManagerCRUDBean<T> implements EntityManagerCRUDLocal<T> {
 	        getEntityManager().clear();
 	        T entity = null;
 	        try {
-	            // TODO why do we need to lowercase uuids?
 	            String sql = "SELECT e FROM " + getEntityClass().getSimpleName()
 	                    + " e WHERE LOWER(e.uuid)=LOWER(:uuid) ORDER BY e.id";
 	            logger.trace("sql: '" + sql + "'");
