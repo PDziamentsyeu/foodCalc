@@ -1,20 +1,17 @@
 package main.java.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import main.common.model.GenericEntityWithMeta;
+
 @Entity
 @Table(name = "USERS",
-uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id" }) })
-public class User {
+uniqueConstraints = { @UniqueConstraint(columnNames = { "id" }) })
+public class User  extends GenericEntityWithMeta{
 
-	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long user_id;
+	private static final long serialVersionUID = 1L;
 
     private String name;
     
@@ -35,7 +32,7 @@ public class User {
 
 	public User(Long id, String name, String email, float weight, int height, String token, String nickName) {
 		super();
-		this.user_id = id;
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.weight = weight;
@@ -62,14 +59,6 @@ public class User {
 
 	public void setWeight(float weight) {
 		this.weight = weight;
-	}
-
-	public Long getId() {
-		return user_id;
-	}
-
-	public void setId(Long id) {
-		this.user_id = id;
 	}
 
 	public String getName() {
@@ -106,7 +95,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User {id=" + user_id +
+		return "User {id=" + id +
 				", name=" + name + 
 				", nickName=" + nickName + 
 				", email=" + email +
