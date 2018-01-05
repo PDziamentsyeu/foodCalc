@@ -1,6 +1,11 @@
 /.apt_generated/
+
 /build/
 .idea/
 node_modules/
 
-*.spec.ts
+/target/
+/build/
+/exportScript.sql/
+/.settings/
+/.classpath/
