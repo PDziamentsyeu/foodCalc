@@ -101,9 +101,51 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.0</version>
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
+					<warSourceExcludes>frontend/**</warSourceExcludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<configuration>
+					<skip>${frontend.build.skip}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>npm-cache</id>
+						<configuration>
+							<executable>npm</executable>
+							<workingDirectory>WebContent/frontend</workingDirectory>
+							<arguments>
+								<argument>cache</argument>
+								<argument>verify</argument>
+							</arguments>
+						</configuration>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npm-build</id>
+						<configuration>
+							<executable>npm</executable>
+							<workingDirectory>WebContent/frontend</workingDirectory>
+							<arguments>
+								<argument>run</argument>
+								<argument>build</argument>
+							</arguments>
+						</configuration>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -121,4 +163,19 @@
 			<url>https://repo.spring.io/libs-release</url>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>frontend-build-on</id>
+			<properties>
+				<frontend.build.skip>false</frontend.build.skip>
+			</properties>
+		</profile>
+		<profile>
+			<id>frontend-build-off</id>
+			<properties>
+				<frontend.build.skip>true</frontend.build.skip>
+			</properties>
+		</profile>
+	</profiles>
 </project>
