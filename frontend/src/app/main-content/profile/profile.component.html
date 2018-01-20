@@ -1,0 +1,51 @@
+<div class="ui grid">
+  <div class="sixteen wide column">
+    <form class="ui form" (ngSubmit)="save()" [formGroup]="profileForm">
+      <h4 class="ui dividing header">Personal data</h4>
+      <div class="field">
+        <div class="four fields">
+          <div class="field">
+            <input type="date" name="shipping[first-name]" formControlName="birthday" placeholder="Birthday" useValueAsDate>
+          </div>
+          <div class="field">
+            <input type="text" name="shipping[last-name]" formControlName="height" placeholder="Height">
+          </div>
+          <div class="field">
+            <input type="text" name="shipping[last-name]" formControlName="weidth" placeholder="Weidth">
+          </div>
+          <div class="field">
+            <label>Koeff</label>
+            <label>{{getKoef()}}</label>
+          </div>
+        </div>
+      </div>
+      <h4 class="ui dividing header">Global data</h4>
+      <div class="field">
+          <div class="two fields">
+            <div class="field">
+              <label>Country</label>
+              <input type="text" name="shipping[first-name]" placeholder="Country" formControlName="country">
+            </div>
+            <div class="field">
+              <label>City</label>
+              <input type="text" name="shipping[last-name]" placeholder="City" formControlName="city">
+            </div>
+          </div>
+      </div>
+      <h4 class="ui dividing header">About yourself</h4>
+      <div class="field">
+        <label>Some words about yourself</label>
+        <input type="text" name="shipping[first-name]" formControlName="about">
+      </div>
+      <div class="field">
+          <label>Preferences</label>
+          <input type="text" name="shipping[first-name]" formControlName="preferences">
+      </div>
+
+      <div tabindex="0">
+        <button class="ui button">Save</button>
+        <button class="ui button">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,12 +1,16 @@
 /.apt_generated/
-
+/exportScript.sql/
 /build/
 .idea/
-node_modules/
 
-/target/
-/build/
-/exportScript.sql/
-/.settings/
-/.classpath/
-/exportScript.sql
+
+**/target/
+
+**/.settings/
+**/.classpath
+**/.factorypath
+**/.project
+
+//Frontend ignores
+**/dist/
+**/node_modules/
