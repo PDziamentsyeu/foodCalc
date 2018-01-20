@@ -100,13 +100,6 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<warSourceDirectory>WebContent</warSourceDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
@@ -115,12 +108,13 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>npm-install</id>
+						<id>npm-cache</id>
 						<configuration>
 							<executable>npm</executable>
 							<workingDirectory>../frontend</workingDirectory>
 							<arguments>
-								<argument>install</argument>
+								<argument>cache</argument>
+								<argument>verify</argument>
 							</arguments>
 						</configuration>
 						<phase>process-sources</phase>
@@ -129,13 +123,12 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>npm-cache</id>
+						<id>npm-install</id>
 						<configuration>
 							<executable>npm</executable>
 							<workingDirectory>../frontend</workingDirectory>
 							<arguments>
-								<argument>cache</argument>
-								<argument>verify</argument>
+								<argument>install</argument>
 							</arguments>
 						</configuration>
 						<phase>process-sources</phase>
@@ -159,6 +152,56 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<skip>${frontend.build.skip}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>copy-dist</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>WebContent/dist</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>../frontend/dist</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-home</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>WebContent</outputDirectory>
+							<overwrite>true</overwrite>
+							<resources>
+								<resource>
+									<directory>../frontend/</directory>
+									<includes>
+										<include>home.html</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
