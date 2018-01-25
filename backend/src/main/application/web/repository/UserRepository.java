@@ -10,6 +10,6 @@ import main.application.web.model.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-	//Optional<User> findByUsername(String name);
+	Optional<User> findById(Long id);
 
 }

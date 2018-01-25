@@ -29,12 +29,12 @@ public class UserRest {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody User forCreate) {
         LOGGER.info("create new user");
-      //  validateUser(forCreate.getName());
+       // validateUser(forCreate.getId());
         User result = userRepository.save(forCreate);
         URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(result.getId()).toUri();
-        LOGGER.info("create new complete");
+        LOGGER.info("creating of new user completed");
         return ResponseEntity.created(location).build();
 
     }
@@ -44,9 +44,9 @@ public class UserRest {
         return userRepository.findAll();
     }
     
-   /* private void validateUser(String userId) throws EntityCreateException {
-		this.userRepository.findByUsername(userId).orElseThrow(
-				() -> new EntityCreateException(userId));
-	}*/
+    private void validateUser(Long userId) {
+		this.userRepository.findById(userId).orElseThrow(
+				() -> new EntityCreateException("User with id {} not found:"+userId));
+	}
 
 }

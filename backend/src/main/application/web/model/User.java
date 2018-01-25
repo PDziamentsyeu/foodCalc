@@ -8,17 +8,14 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import main.application.utils.model.GenericEntityWithMeta;
-
 @Entity
 
-public class User  extends GenericEntityWithMeta{
+public class User{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-	private static final long serialVersionUID = 1L;
 	@Column(nullable = false)
     private String name;
 	@Column(nullable = false)
@@ -100,6 +97,13 @@ public class User  extends GenericEntityWithMeta{
 		this.height = height;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	@Override
 	public String toString() {
