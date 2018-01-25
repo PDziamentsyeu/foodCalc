@@ -3,7 +3,6 @@ package main.common.rest.userrest;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,6 +15,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import main.common.CustomEJBUtil;
 import main.common.model.GenericEntityWithMeta;
@@ -23,8 +24,8 @@ import main.common.service.GenericService;
 import main.common.service.userservice.UserBean;
 import main.java.model.User;
 
-@Stateless
-@Path("/users")
+@RestController
+@RequestMapping("/users")
 public class UserRest extends GenericService {
 
     private static final Logger log = Logger.getLogger(UserRest.class);
@@ -78,7 +79,7 @@ public class UserRest extends GenericService {
     }
 
     @GET
-    @Path("count")
+    @RequestMapping("/count")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces(MediaType.TEXT_PLAIN)
     public Response count() {
@@ -97,7 +98,7 @@ public class UserRest extends GenericService {
 
     // Operations by uuid
     @GET
-    @Path("{uuid}")
+    @RequestMapping("/{uuid}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getByUUID(
         @PathParam("uuid") String uuid
@@ -111,7 +112,7 @@ public class UserRest extends GenericService {
     }
 
     @PUT
-    @Path("{uuid}")
+    @RequestMapping("/{uuid}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response update(
@@ -131,7 +132,7 @@ public class UserRest extends GenericService {
    
 
     @DELETE
-    @Path("{uuid}")
+    @RequestMapping("/{uuid}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response delete(
         @PathParam("uuid") String uuid
