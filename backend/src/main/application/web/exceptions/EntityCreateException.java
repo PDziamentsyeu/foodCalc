@@ -1,20 +1,15 @@
 package main.application.web.exceptions;
 
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
 
-public class EntityCreateException extends Exception {
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class EntityCreateException extends RuntimeException {
+	
+	private static final long serialVersionUID = -218398366618725495L;
 
-    private static final long serialVersionUID = 1L;
-
-    public EntityCreateException(String message) {
-        super(message);
-    }
-
-    public EntityCreateException(String message, Exception e) {
-        super(message, e);
-    }
-
-    public EntityCreateException(Exception e) {
-        super(e);
-    }
+	public EntityCreateException(String userId) {
+			super("could not find user '" + userId + "'.");
+		}
 
 }

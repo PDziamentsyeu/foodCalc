@@ -1,5 +1,6 @@
 package main.application.web.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,11 +19,11 @@ public class User  extends GenericEntityWithMeta{
     protected Long id;
 
 	private static final long serialVersionUID = 1L;
-
+	@Column(nullable = false)
     private String name;
-    
+	@Column(nullable = false)
     private String nickName;
-
+	@Column(nullable = false)
     private String email;
     @JsonIgnore
     private String token;

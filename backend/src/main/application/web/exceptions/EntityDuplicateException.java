@@ -8,12 +8,5 @@ public class EntityDuplicateException extends EntityCreateException {
         super(message);
     }
 
-    public EntityDuplicateException(String message, Exception e) {
-        super(message, e);
-    }
-
-    public EntityDuplicateException(Exception e) {
-        super(e);
-    }
 
 }
