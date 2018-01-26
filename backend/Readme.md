@@ -11,6 +11,33 @@ To start project need to be installed:
 
 To rub app use mvn spring-boot:run command
 
+Account REST:
+localhost:8080/accounts
+
+required fields: email - string, password-string, isAdmin - bollean (false by default)
+create :
+{
+    "email":"some@emai.com",
+    "password":"Qwerty123456",
+    "isAdmin":false
+}
+getAll:
+[{
+   "id": 1,
+   "email": "some@emai.com",
+   "password": "Qwerty123456",
+   "userDetail":    {
+      "id": 4,
+      "name": null,
+      "nickName": null,
+      "weight": 0,
+      "height": 0
+   },
+   "admin": false
+}]
+delete: localhost:8080/accounts/{id}
+
+
 Users REST:
 localhost:8080/users
 

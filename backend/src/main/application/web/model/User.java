@@ -1,33 +1,28 @@
 package main.application.web.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.OneToOne;
 
 @Entity
-
 public class User{
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
-	@Column(nullable = false)
     private String name;
-	@Column(nullable = false)
-    private String nickName;
-	@Column(nullable = false)
-    private String email;
-    @JsonIgnore
-    private String token;
     
+    private String nickName;
+	
     private float weight;
     
     private int height;	
+    
+    @OneToOne(mappedBy = "userDetail")
+    private Account account;
 
 	public User() {
 		super();
@@ -38,11 +33,9 @@ public class User{
 		super();
 		this.id = id;
 		this.name = name;
-		this.email = email;
 		this.weight = weight;
 		this.height = height;
 		this.nickName = nickName;
-		this.token = token;
 	}
 
 	public String getNickName() {
@@ -53,13 +46,6 @@ public class User{
 		this.nickName = nickName;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
 
 	public void setWeight(float weight) {
 		this.weight = weight;
@@ -71,14 +57,6 @@ public class User{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public Float getWeight() {
@@ -110,8 +88,6 @@ public class User{
 		return "User {id=" + id +
 				", name=" + name + 
 				", nickName=" + nickName + 
-				", email=" + email +
-				", token=" + token +
 				", weight=" + weight + 
 				", height=" + height + "}";
 	}
