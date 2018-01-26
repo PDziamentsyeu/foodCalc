@@ -3,6 +3,7 @@ package main.application.web.controller;
 import java.net.URI;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PostUpdate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class AccountRest {
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(result.getId()).toUri();
         LOGGER.info("creating of new account completed");
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).build().ok(result);
 
     }
     
@@ -89,7 +90,38 @@ public class AccountRest {
         return accountRepository.findAll();
     }
 
+    /*--------------------------------Userifo operations ----------------------------*/
+    @SuppressWarnings("unchecked")
+    @GetMapping(value = "/{id}/user")
+    public ResponseEntity<?> getUserInfo(@PathVariable("id") long id) {
+        LOGGER.info("Requesting UserDetails for Account with id {}", id);
+        Account account = accountRepository.findById(id);
+        if (account == null) {
+            LOGGER.error("Account with id {} not found.", id);
+            return new ResponseEntity(new EntityNotFoundException("Account with id " + id 
+                    + " not found"), HttpStatus.NOT_FOUND);
+        } 
+        User userInfo = userRepository.findById(account.getUserDetail().getId());
+        return new ResponseEntity<User>(userInfo, HttpStatus.OK);
+    }
     
+    @SuppressWarnings("unchecked")
+    @PostMapping(value = "/{id}/user")
+    public ResponseEntity<?> updateUserInfo(@PathVariable("id") long id,@RequestBody User forUpdate) {
+        LOGGER.info("Updating UserDetails for Account with id {}", id);
+        Account account = accountRepository.findById(id);
+        if (account == null) {
+            LOGGER.error("Account with id {} not found.", id);
+            return new ResponseEntity(new EntityNotFoundException("Account with id " + id 
+                    + " not found"), HttpStatus.NOT_FOUND);
+        } 
+        User userInfo = userRepository.findById(account.getUserDetail().getId());      
+        userInfo = userRepository.save(forUpdate);
+        account.setUserDetail(userInfo);
+        account = accountRepository.save(account);
+        LOGGER.info("update for account complete ");
+        return new ResponseEntity<Account>(account, HttpStatus.OK);
+    }
     
 
 }
