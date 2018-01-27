@@ -10,12 +10,10 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.Email;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
     @Email
     @Column(nullable = false) 
