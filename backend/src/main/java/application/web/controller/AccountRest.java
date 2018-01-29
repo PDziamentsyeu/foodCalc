@@ -1,4 +1,4 @@
-package main.application.web.controller;
+package main.java.application.web.controller;
 
 import java.net.URI;
 
@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import main.application.web.exceptions.EntityDeleteException;
-import main.application.web.model.Account;
-import main.application.web.model.User;
-import main.application.web.repository.AccountRepository;
-import main.application.web.repository.UserRepository;
+import main.java.application.web.exceptions.EntityDeleteException;
+import main.java.application.web.model.Account;
+import main.java.application.web.model.User;
+import main.java.application.web.repository.AccountRepository;
+import main.java.application.web.repository.UserRepository;
 
 @RestController
 @RequestMapping(path = "/accounts")

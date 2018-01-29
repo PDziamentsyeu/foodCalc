@@ -1,4 +1,4 @@
-package main.application.web.exceptions;
+package main.java.application.web.exceptions;
 
 
 public class EntityUpdateException extends Exception {

@@ -1,4 +1,4 @@
-package main.application.web.model;
+package main.java.application.web.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

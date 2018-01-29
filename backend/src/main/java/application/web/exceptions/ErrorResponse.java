@@ -1,4 +1,4 @@
-package main.application.web.exceptions;
+package main.java.application.web.exceptions;
 
 import java.io.Serializable;
 import java.util.Date;
