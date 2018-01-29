@@ -1,25 +1,22 @@
 package main.java.config;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Configuration
+@EnableWebMvc
 @ComponentScan(basePackages = {"main"})
 public class WebConfig extends WebMvcConfigurerAdapter {
+    @Value("${application.front.dir}")
+    public String frontDirPath;
    
     @Override
-    public void addCorsMappings(final CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowCredentials(false).maxAge(3600);
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        System.out.println(frontDirPath);
+        registry.addResourceHandler("/**").addResourceLocations("file://" + frontDirPath);
     }
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
-
 }

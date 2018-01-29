@@ -3,7 +3,6 @@ package main.java.application.web.controller;
 import java.net.URI;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.PostUpdate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
