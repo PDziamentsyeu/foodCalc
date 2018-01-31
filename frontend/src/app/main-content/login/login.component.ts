@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthenticationService} from "../../services/authentication.service";
-import {User} from "../../models/user";
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthenticationService} from '../../services/authentication.service';
+import {Account} from '../../models/account';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +9,7 @@ import {User} from "../../models/user";
 })
 export class LoginComponent implements OnInit {
 
-    model: User = new User();
+    model: Account = new Account();
     loading = false;
     returnUrl: string;
     rememberMe: boolean;
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     login() {
         console.log(this.rememberMe);
         this.loading = true;
-        this.authenticationService.login(this.model.username, this.model.password)
+        this.authenticationService.login(this.model.email, this.model.password)
             .subscribe(
                 data => {
                     this.router.navigate([this.returnUrl]);

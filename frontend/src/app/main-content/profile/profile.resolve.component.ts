@@ -4,7 +4,7 @@ import {
     ActivatedRouteSnapshot, RouterStateSnapshot
 } from '@angular/router';
 import {UserService} from "../../services/user.service";
-import {User} from "../../models/user";
+import {Account} from "../../models/account";
 import {Observable} from "rxjs/Observable";
 import {Profile} from "../../models/profile";
 

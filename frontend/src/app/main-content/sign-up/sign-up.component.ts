@@ -1,26 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {  } from '@angular/forms';
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {} from '@angular/forms';
+import {UserService} from '../../services/user.service';
+import {Account} from '../../models/account';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html'
+    selector: 'app-sign-up',
+    templateUrl: './sign-up.component.html'
 })
 export class SignUpComponent implements OnInit {
+
+    model: Account = new Account();
+    loading = false;
+    confirmPassword: string;
+
+    constructor(private router: Router,
+                private userService: UserService) {
+    }
 
     ngOnInit(): void {
         this.confirmPassword = '';
     }
-
-    model: User = new User();
-    loading = false;
-    confirmPassword:string;
-
-    constructor(
-        private router: Router,
-        private userService: UserService) { }
 
     register() {
         this.loading = true;

@@ -1,31 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import {UserService} from "../services/user.service";
-import {User} from "../models/user";
-import {AuthenticationService} from "../services/authentication.service";
+import {Component, OnInit} from '@angular/core';
+import {UserService} from '../services/user.service';
+import {Account} from '../models/account';
+import {AuthenticationService} from '../services/authentication.service';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html'
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements OnInit {
-  user: User;
+    user: Account;
 
-  constructor(
-      private userService: UserService,
-      private authService: AuthenticationService
-  ) { }
+    constructor(private userService: UserService,
+                private authService: AuthenticationService) {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  authorizedUser(){
-    this.user = this.userService.getUserFromStorage();
-    console.log(this.user);
-    return this.user;
-  }
+    authorizedUser() {
+        this.user = this.userService.getUserFromStorage();
+        return this.user;
+    }
 
-  logout(){
-      this.authService.logout();
-  }
+    logout() {
+        this.authService.logout();
+    }
 
 }

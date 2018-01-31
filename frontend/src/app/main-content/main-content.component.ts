@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 
 @Component({
-  selector: 'app-main-content',
-  templateUrl: './main-content.component.html'
+    selector: 'app-main-content',
+    templateUrl: './main-content.component.html'
 })
 export class MainContentComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }
