@@ -1,7 +1,5 @@
 package main.java.application.web.controller;
 
-import java.net.URI;
-
 import javax.persistence.EntityNotFoundException;
 
 import org.slf4j.Logger;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import main.java.application.web.exceptions.EntityDeleteException;
 import main.java.application.web.model.Account;
@@ -39,17 +36,13 @@ public class AccountRest {
     /*--------------------------------Create operation ----------------------------*/
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Account forCreate) {
-        LOGGER.info("create new account");
         LOGGER.info("create account with data: "+forCreate.toString());
         User userInfo = new User();
         userInfo = userRepository.save(userInfo);
         forCreate.setUserDetail(userInfo);
         Account result = accountRepository.save(forCreate);
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(result.getId()).toUri();
         LOGGER.info("creating of new account completed");
-        return ResponseEntity.created(location).build().ok(result);
+        return new ResponseEntity<Account>(result,HttpStatus.OK);
 
     }
     
