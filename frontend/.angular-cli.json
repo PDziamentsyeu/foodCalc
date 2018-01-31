@@ -7,7 +7,7 @@
     {
       "root": "src",
       "outDir": "dist",
-      "index": "../home.html",
+      "index": "home.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
