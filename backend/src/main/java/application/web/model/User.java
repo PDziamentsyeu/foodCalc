@@ -16,6 +16,10 @@ public class User{
     private String firstName;
     
     private String lastName;
+    
+    private String city;
+    
+    private String country;
 	
     private float weight;
     
@@ -93,12 +97,30 @@ public class User{
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
 	@Override
 	public String toString() {
 		return "User {id=" + id +
 				", firstName=" + firstName + 
 				", lastName=" + lastName + 
+				", country=" + country +
+				", city=" + city+
 				", birthday=" + birthday +
 				", weight=" + weight + 
 				", height=" + height + "}";

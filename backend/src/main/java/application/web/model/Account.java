@@ -10,6 +10,8 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Account {
     @Id
@@ -19,6 +21,7 @@ public class Account {
     @Column(nullable = false) 
     private String email;
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
     @Column(nullable = false)
     private boolean isAdmin;
