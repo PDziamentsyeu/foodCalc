@@ -1,11 +1,17 @@
 package main.java.application.web.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.Email;
@@ -29,7 +35,24 @@ public class Account {
     @OneToOne(cascade = CascadeType.ALL)
     private User userDetail;
 
-    public User getUserDetail() {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "role", joinColumns
+            = @JoinColumn(name = "account_id",
+            referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id",
+                    referencedColumnName = "id"))
+    private List<Role> roles;
+
+    
+    public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public User getUserDetail() {
         return userDetail;
     }
 
@@ -52,9 +75,7 @@ public class Account {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    //@JsonIgnore
-    public String getPassword() {
+   public String getPassword() {
         return password;
     }
 
@@ -76,6 +97,7 @@ public class Account {
         this.password = password;
         this.isAdmin = isAdmin;
     }
+    
 
     public Account() {
         super();
