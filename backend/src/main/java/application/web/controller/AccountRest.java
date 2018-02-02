@@ -64,8 +64,7 @@ public class AccountRest {
 			throws UserNotExistsException, AuthorizationException {
 		final Account account = accountService.checkPasswordAndGetUser(loginForm.getEmail(), loginForm.getPassword());
 		String token = JwtService.generateToken(account.getEmail(), account.getId(), account.getRole().getRoleName());
-		new ResponseEntity<LoginRequestDto>(new LoginRequestDto(token), HttpStatus.OK);
-		return null;
+		return new ResponseEntity<LoginRequestDto>(new LoginRequestDto(token), HttpStatus.OK);
 	}
 
 	/*--------------------------------Create operation ----------------------------*/
@@ -75,19 +74,14 @@ public class AccountRest {
 		User userInfo = new User();
 		userInfo = userRepository.save(userInfo);
 		Role role = roleRepository.findByRoleName(forCreate.getRole().getRoleName());
-		LOGGER.info("role "+role.toString());
 		forCreate.setRole(role);
-		LOGGER.info("not encrypted "+forCreate.getPassword());
 		forCreate.setUserDetail(userInfo);
 		forCreate.setPassword(PasswordUtils.encryptPassword(forCreate.getPassword()));
-		LOGGER.info("encrypted "+forCreate.getPassword());
 		Account result = accountRepository.save(forCreate);
-		LOGGER.info("creating of new account completed");
 		return new ResponseEntity<Account>(result, HttpStatus.OK);
 
 	}
 
-	@JwtAuth("ADMIN")
 	@PutMapping
 	public ResponseEntity<Void> changePassword(@RequestBody @Valid final AccountUpdateDto accountUpdateDto,
 			final HttpServletRequest request)
@@ -99,6 +93,7 @@ public class AccountRest {
 	}
 
 	/*--------------------------------Single operation ----------------------------*/
+	@JwtAuth("ADMIN")
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> getAccount(@PathVariable("id") long id) {
@@ -113,6 +108,7 @@ public class AccountRest {
 	}
 
 	/*--------------------------------Delete operation ----------------------------*/
+	@JwtAuth("ADMIN")
 	@SuppressWarnings("unchecked")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {

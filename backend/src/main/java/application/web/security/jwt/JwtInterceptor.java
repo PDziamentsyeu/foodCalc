@@ -1,11 +1,16 @@
 package main.java.application.web.security.jwt;
 
 import io.jsonwebtoken.JwtException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
@@ -15,13 +20,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JwtInterceptor implements HandlerInterceptor {
+	private static final Logger LOG = LoggerFactory.getLogger(JwtInterceptor.class);
     private final static String OPTIONS_METHOD = "OPTIONS";
     private final static String AUTHORIZATION_HEADER = "Authorization";
     private final static String CLAIMS_ATTR = "claims";
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
-        if (handler instanceof HandlerMethod) {
+    	LOG.info("inside handler");
+    	if (handler instanceof HandlerMethod) {
+    		LOG.info("hello from if");
             final HandlerMethod hm = (HandlerMethod) handler;
             final Method method = hm.getMethod();
             if (method.getDeclaringClass().isAnnotationPresent(Controller.class) || method.getDeclaringClass().isAnnotationPresent(RestController.class)) {
