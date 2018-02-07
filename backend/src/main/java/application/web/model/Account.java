@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.Email;
@@ -20,13 +21,22 @@ public class Account {
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    private boolean isAdmin;
-    
     @OneToOne(cascade = CascadeType.ALL)
     private User userDetail;
 
-    public User getUserDetail() {
+    @ManyToOne
+    private Role role;
+
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public User getUserDetail() {
         return userDetail;
     }
 
@@ -49,30 +59,21 @@ public class Account {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    //@JsonIgnore
-    public String getPassword() {
+   public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
+    
 
     public Account(String email, String password, boolean isAdmin) {
         super();
         this.email = email;
         this.password = password;
-        this.isAdmin = isAdmin;
     }
+    
 
     public Account() {
         super();
@@ -84,7 +85,8 @@ public class Account {
         return "Account {"
                 + "id=" + id + ","
                 + " email=" + email + ","
-                + " isAdmin=" + isAdmin 
+                + "pass=" + password+","
+                + " role =" + role.getRoleName()+","
                 + "}";
     }
 

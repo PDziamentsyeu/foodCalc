@@ -13,11 +13,17 @@ public class User{
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
 
-    private String name;
+    private String firstName;
     
-    private String nickName;
+    private String lastName;
+    
+    private String city;
+    
+    private String country;
 	
     private float weight;
+    
+    private String birthday;
     
     private int height;	
     
@@ -32,31 +38,31 @@ public class User{
 	public User(Long id, String name, String email, float weight, int height, String token, String nickName) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.firstName = name;
 		this.weight = weight;
 		this.height = height;
-		this.nickName = nickName;
+		this.lastName = nickName;
 	}
 
-	public String getNickName() {
-		return nickName;
+
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
 	public void setWeight(float weight) {
 		this.weight = weight;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Float getWeight() {
@@ -82,12 +88,40 @@ public class User{
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
 	@Override
 	public String toString() {
 		return "User {id=" + id +
-				", name=" + name + 
-				", nickName=" + nickName + 
+				", firstName=" + firstName + 
+				", lastName=" + lastName + 
+				", country=" + country +
+				", city=" + city+
+				", birthday=" + birthday +
 				", weight=" + weight + 
 				", height=" + height + "}";
 	}
