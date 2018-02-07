@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -82,6 +81,7 @@ public class AccountRest {
 
 	}
 
+	@JwtAuth(value={"ADMIN", "USER"})
 	@PutMapping
 	public ResponseEntity<Void> changePassword(@RequestBody @Valid final AccountUpdateDto accountUpdateDto,
 			final HttpServletRequest request)
@@ -93,10 +93,11 @@ public class AccountRest {
 	}
 
 	/*--------------------------------Single operation ----------------------------*/
-	@JwtAuth("ADMIN")
+	@JwtAuth(value={"ADMIN", "USER"})
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> getAccount(@PathVariable("id") long id) {
+	public ResponseEntity<?> getAccount(final HttpServletRequest request) throws JwtParseClaimsException {
+		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Fetching Account with id {}", id);
 		Account account = accountRepository.findById(id);
 		if (account == null) {
@@ -111,7 +112,8 @@ public class AccountRest {
 	@JwtAuth("ADMIN")
 	@SuppressWarnings("unchecked")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+	public ResponseEntity<?> delete(final HttpServletRequest request) throws JwtParseClaimsException {
+		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Fetching & Deleting Account with id {}", id);
 		Account account = accountRepository.findById(id);
 		if (account == null) {
@@ -126,16 +128,18 @@ public class AccountRest {
 	}
 
 	/*--------------------------------Retrieve all ----------------------------*/
-	@JwtAuth("ADMIN")
+	@JwtAuth(value={"ADMIN"})
 	@GetMapping()
 	public @ResponseBody Iterable<Account> listAllAccounts() {
 		return accountRepository.findAll();
 	}
 
 	/*--------------------------------Userifo operations ----------------------------*/
+	@JwtAuth(value={"ADMIN", "USER"})
 	@SuppressWarnings("unchecked")
 	@GetMapping(value = "/{id}/user")
-	public ResponseEntity<?> getUserInfo(@PathVariable("id") long id) {
+	public ResponseEntity<?> getUserInfo(final HttpServletRequest request) throws JwtParseClaimsException {
+		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Requesting UserDetails for Account with id {}", id);
 		Account account = accountRepository.findById(id);
 		if (account == null) {
@@ -147,9 +151,11 @@ public class AccountRest {
 		return new ResponseEntity<User>(userInfo, HttpStatus.OK);
 	}
 
+	@JwtAuth(value={"ADMIN", "USER"})
 	@SuppressWarnings("unchecked")
 	@PostMapping(value = "/{id}/user")
-	public ResponseEntity<?> updateUserInfo(@PathVariable("id") long id, @RequestBody User forUpdate) {
+	public ResponseEntity<?> updateUserInfo(final HttpServletRequest request, @RequestBody User forUpdate) throws JwtParseClaimsException {
+		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Updating UserDetails for Account with id {}", id);
 		Account account = accountRepository.findById(id);
 		if (account == null) {

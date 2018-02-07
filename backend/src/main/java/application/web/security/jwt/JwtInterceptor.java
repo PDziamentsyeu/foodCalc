@@ -29,13 +29,15 @@ public class JwtInterceptor implements HandlerInterceptor {
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
     	LOG.info("inside handler");
     	if (handler instanceof HandlerMethod) {
-    		LOG.info("hello from if");
             final HandlerMethod hm = (HandlerMethod) handler;
             final Method method = hm.getMethod();
             if (method.getDeclaringClass().isAnnotationPresent(Controller.class) || method.getDeclaringClass().isAnnotationPresent(RestController.class)) {
                 if (method.isAnnotationPresent(JwtAuth.class) && method.getAnnotation(JwtAuth.class).value() != null) {
                     Set<String> permissions = new HashSet<>(Arrays.asList(method.getAnnotation(JwtAuth.class).value()));
                     permissions = permissions.stream().map(role -> role.toUpperCase()).collect(Collectors.toSet());
+                    for (String permission:permissions){
+                    	LOG.info(permission);
+                    }
                     final String token = request.getHeader(AUTHORIZATION_HEADER);
                     String role = null;
                     if (!request.getMethod().equalsIgnoreCase(OPTIONS_METHOD)) {
