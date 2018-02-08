@@ -15,8 +15,8 @@
                     <a class="item" [routerLink]="['/login']">Login</a>
                 </div>
                 <div class="right menu" *ngIf="authorizedUser()">
-                    <a class="item" [routerLink]="['/profile']"><span>{{user.firstName}}</span><i
-                            class="column spy icon"></i></a>
+                    <a class="item" [routerLink]="['/profile']"><i
+                            class="column spy icon"></i><span>Profile</span></a>
                     <a class="item" (click)="logout()">Logout</a>
                 </div>
             </div>

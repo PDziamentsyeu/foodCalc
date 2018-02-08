@@ -10,18 +10,18 @@ export class UserService {
     constructor(private http: Http) { }
 
     getUserFromStorage() {
-        return JSON.parse(localStorage.getItem('currentUser'));
+        return localStorage.getItem('token');
     }
 
     create(user: Account) {
         return this.http.post(Constants.HOME_URL + 'users', user, this.jwt()).map((response: Response) => {
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('token', JSON.stringify(user));
             response.json();
         });
     }
 
-    getFullUserInfo(id): Observable<Profile> {
-        return this.http.get(Constants.HOME_URL + 'profiles?user_id=' + id, this.jwt())
+    getFullUserInfo(): Observable<Profile> {
+        return this.http.get(Constants.HOME_URL + 'users?user_id=' + localStorage.getItem('user_id'), this.jwt())
             .map((response: Response) => response.json());
 
     }
@@ -30,9 +30,9 @@ export class UserService {
 
     private jwt() {
         // create authorization header with jwt token
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            const headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
+        const token = localStorage.getItem('token');
+        if (token) {
+            const headers = new Headers({ 'Authorization': 'Bearer ' + token });
             return new RequestOptions({ headers: headers });
         }
     }

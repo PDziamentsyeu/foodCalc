@@ -8,7 +8,6 @@ import {AuthenticationService} from '../services/authentication.service';
     templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements OnInit {
-    user: Account;
 
     constructor(private userService: UserService,
                 private authService: AuthenticationService) {
@@ -18,8 +17,8 @@ export class NavigationComponent implements OnInit {
     }
 
     authorizedUser() {
-        this.user = this.userService.getUserFromStorage();
-        return this.user;
+        const token = this.userService.getUserFromStorage();
+        return token;
     }
 
     logout() {
