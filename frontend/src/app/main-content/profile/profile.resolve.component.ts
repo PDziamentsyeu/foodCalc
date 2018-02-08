@@ -3,18 +3,18 @@ import {
     Router, Resolve,
     ActivatedRouteSnapshot, RouterStateSnapshot
 } from '@angular/router';
-import {UserService} from "../../services/user.service";
-import {Account} from "../../models/account";
-import {Observable} from "rxjs/Observable";
-import {Profile} from "../../models/profile";
+import {UserService} from '../../services/user.service';
+import {Account} from '../../models/account';
+import {Observable} from 'rxjs/Observable';
+import {Profile} from '../../models/profile';
 
 @Injectable()
 export class ProfileResolveComponent implements Resolve<Profile> {
     loading = true;
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Profile>  {
-        let id = this.userService.getUserFromStorage().id;
-            return this.userService.getFullUserInfo(id).map(
+        const id = this.userService.getUserFromStorage();
+            return this.userService.getFullUserInfo().map(
                 profile => {
                     console.log(profile);
                     // set success message and pass true paramater to persist the message after redirecting to the login page

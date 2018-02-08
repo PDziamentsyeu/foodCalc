@@ -26,7 +26,9 @@ export class ProfileComponent implements OnInit {
     }
 
     getKoef() {
-        return (this.profileForm.get('weidth').value / Math.pow(this.profileForm.get('height').value / 100, 2)).toFixed(2);
+        const weight = this.profileForm.get('weight').value;
+        const height = this.profileForm.get('height').value;
+        return (weight && height) ? (weight / Math.pow(height / 100, 2)).toFixed(2) : 0;
     }
 
     save() {
@@ -37,7 +39,7 @@ export class ProfileComponent implements OnInit {
         this.profileForm = new FormGroup({
             birthday: new FormControl(this.datePipe.transform(this.profile.birthday, 'yyyy-MM-dd')),
             height: new FormControl(this.profile.height),
-            weidth: new FormControl(this.profile.weidth),
+            weight: new FormControl(this.profile.weight),
             country: new FormControl(this.profile.country),
             city: new FormControl(this.profile.city),
             about: new FormControl(this.profile.about),

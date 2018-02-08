@@ -3,7 +3,7 @@ export class Profile {
     user_id: number;
     birthday: string;
     height: number;
-    weidth: number;
+    weight: number;
     country: string;
     city: string;
     about: string;
