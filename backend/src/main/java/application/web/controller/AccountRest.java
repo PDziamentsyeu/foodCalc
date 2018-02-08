@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,7 +68,7 @@ public class AccountRest {
 	}
 
 	/*--------------------------------Create operation ----------------------------*/
-	@PostMapping
+	@PostMapping("/account")
 	public ResponseEntity<?> create(@RequestBody Account forCreate) throws AuthorizationException {
 		LOGGER.info("create account with data: " + forCreate.toString());
 		User userInfo = new User();
@@ -82,7 +83,7 @@ public class AccountRest {
 	}
 
 	@JwtAuth(value={"ADMIN", "USER"})
-	@PutMapping
+	@PutMapping("/account")
 	public ResponseEntity<Void> changePassword(@RequestBody @Valid final AccountUpdateDto accountUpdateDto,
 			final HttpServletRequest request)
 			throws JwtParseClaimsException, UserNotExistsException, AuthorizationException, UserConflictException {
@@ -95,7 +96,7 @@ public class AccountRest {
 	/*--------------------------------Single operation ----------------------------*/
 	@JwtAuth(value={"ADMIN", "USER"})
 	@SuppressWarnings("unchecked")
-	@GetMapping(value = "/{id}")
+	@GetMapping("/account")
 	public ResponseEntity<?> getAccount(final HttpServletRequest request) throws JwtParseClaimsException {
 		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Fetching Account with id {}", id);
@@ -111,9 +112,8 @@ public class AccountRest {
 	/*--------------------------------Delete operation ----------------------------*/
 	@JwtAuth("ADMIN")
 	@SuppressWarnings("unchecked")
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(final HttpServletRequest request) throws JwtParseClaimsException {
-		Long id = JwtService.getUserClaims(request).getId();
+	@DeleteMapping("/account/{id}")
+	public ResponseEntity<?> delete(final HttpServletRequest request, @PathVariable("id") long id) throws JwtParseClaimsException {
 		LOGGER.info("Fetching & Deleting Account with id {}", id);
 		Account account = accountRepository.findById(id);
 		if (account == null) {
@@ -137,7 +137,7 @@ public class AccountRest {
 	/*--------------------------------Userifo operations ----------------------------*/
 	@JwtAuth(value={"ADMIN", "USER"})
 	@SuppressWarnings("unchecked")
-	@GetMapping(value = "/{id}/user")
+	@GetMapping(value = "/account/user")
 	public ResponseEntity<?> getUserInfo(final HttpServletRequest request) throws JwtParseClaimsException {
 		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Requesting UserDetails for Account with id {}", id);
@@ -153,7 +153,7 @@ public class AccountRest {
 
 	@JwtAuth(value={"ADMIN", "USER"})
 	@SuppressWarnings("unchecked")
-	@PostMapping(value = "/{id}/user")
+	@PostMapping(value ="/account/user")
 	public ResponseEntity<?> updateUserInfo(final HttpServletRequest request, @RequestBody User forUpdate) throws JwtParseClaimsException {
 		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Updating UserDetails for Account with id {}", id);
