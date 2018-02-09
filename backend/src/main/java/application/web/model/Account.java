@@ -8,10 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
 
 @Entity
+@Table(name = "accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,7 +61,7 @@ public class Account {
     public void setEmail(String email) {
         this.email = email;
     }
-   public String getPassword() {
+    public String getPassword() {
         return password;
     }
 
