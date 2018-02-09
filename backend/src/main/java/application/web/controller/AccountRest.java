@@ -22,22 +22,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import main.java.application.web.exceptions.AuthorizationException;
+import main.java.application.web.exceptions.EntityCreateException;
 import main.java.application.web.exceptions.EntityDeleteException;
 import main.java.application.web.exceptions.UserConflictException;
 import main.java.application.web.exceptions.UserNotExistsException;
 import main.java.application.web.model.Account;
-import main.java.application.web.model.Role;
 import main.java.application.web.model.User;
 import main.java.application.web.model.dto.AccountUpdateDto;
 import main.java.application.web.model.dto.LoginDto;
 import main.java.application.web.model.dto.LoginRequestDto;
 import main.java.application.web.repository.AccountRepository;
-import main.java.application.web.repository.RoleRepository;
 import main.java.application.web.repository.UserRepository;
 import main.java.application.web.security.jwt.JwtAuth;
 import main.java.application.web.security.jwt.JwtParseClaimsException;
 import main.java.application.web.security.jwt.JwtService;
-import main.java.application.web.security.jwt.PasswordUtils;
 import main.java.application.web.security.jwt.model.UserClaims;
 import main.java.application.web.service.AccountService;
 
@@ -54,9 +52,6 @@ public class AccountRest {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private RoleRepository roleRepository;
 
 	/*--------------------------------Login operation ----------------------------*/
 	@PostMapping("/login")
@@ -70,14 +65,16 @@ public class AccountRest {
 	/*--------------------------------Create operation ----------------------------*/
 	@PostMapping("/account")
 	public ResponseEntity<?> create(@RequestBody Account forCreate) throws AuthorizationException {
-		LOGGER.info("create account with data: " + forCreate.toString());
-		User userInfo = new User();
-		userInfo = userRepository.save(userInfo);
-		Role role = roleRepository.findByRoleName(forCreate.getRole().getRoleName());
-		forCreate.setRole(role);
-		forCreate.setUserDetail(userInfo);
-		forCreate.setPassword(PasswordUtils.encryptPassword(forCreate.getPassword()));
-		Account result = accountRepository.save(forCreate);
+		LOGGER.info("create account with data: " + forCreate.toString());	
+		Account result = accountService.checkAndCreateUser(forCreate);
+		return new ResponseEntity<Account>(result, HttpStatus.OK);
+
+	}
+	
+	@PostMapping("/account/admin")
+	public ResponseEntity<?> createAdmin(@RequestBody Account forCreate) throws AuthorizationException {
+		LOGGER.info("create account with data: " + forCreate.toString());	
+		Account result = accountService.checkAndCreateAdmin(forCreate);
 		return new ResponseEntity<Account>(result, HttpStatus.OK);
 
 	}
@@ -178,7 +175,7 @@ public class AccountRest {
 		LOGGER.info(exception.getMessage());
 	}
 
-	@ExceptionHandler(UserConflictException.class)
+	@ExceptionHandler({UserConflictException.class, EntityCreateException.class})
 	@ResponseStatus(HttpStatus.CONFLICT)
 	public void handleConflicts(final UserConflictException exception) {
 		LOGGER.info(exception.getMessage());
