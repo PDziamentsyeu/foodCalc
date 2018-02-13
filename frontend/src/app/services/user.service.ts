@@ -21,7 +21,13 @@ export class UserService {
     }
 
     getFullUserInfo(): Observable<Profile> {
-        return this.http.get(Constants.HOME_URL + 'users?user_id=' + localStorage.getItem('user_id'), this.jwt())
+        return this.http.get(Constants.HOME_URL + 'accounts/account', this.jwt())
+            .map((response: Response) => response.json());
+
+    }
+
+    saveFullUserInfo(profile: Profile): Observable<Profile> {
+        return this.http.post(Constants.HOME_URL + 'accounts/account/user', this.getUserFromStorage(), this.jwt())
             .map((response: Response) => response.json());
 
     }
@@ -30,9 +36,9 @@ export class UserService {
 
     private jwt() {
         // create authorization header with jwt token
-        const token = localStorage.getItem('token');
+        const token = this.getUserFromStorage();
         if (token) {
-            const headers = new Headers({ 'Authorization': 'Bearer ' + token });
+            const headers = new Headers({ 'Authorization': token });
             return new RequestOptions({ headers: headers });
         }
     }

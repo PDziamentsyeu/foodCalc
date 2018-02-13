@@ -21,6 +21,10 @@ import {EqualDirective} from './directives/equal.directive';
 import {ProfileComponent} from './main-content/profile/profile.component';
 import {ProfileResolveComponent} from './main-content/profile/profile.resolve.component';
 import {DatePipe} from '@angular/common';
+import {MymenusComponent} from "./main-content/profile/mymenus/mymenus.component";
+import {MycalendarComponent} from "./main-content/profile/mycalendar/mycalendar.component";
+import {MyprofileComponent} from "./main-content/profile/myprofile/myprofile.component";
+import {ProfileModule} from "./main-content/profile/profile.module";
 
 const routes: Routes = [
     // basic routes
@@ -33,7 +37,7 @@ const routes: Routes = [
     {path: 'about-us', component: AboutUsComponent},
     {path: 'sign-up', component: SignUpComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'profile', component: ProfileComponent, resolve: {profile: ProfileResolveComponent}}
+    {path: 'profile', loadChildren: 'app/main-content/profile/profile.module#ProfileModule'}
 ];
 
 @NgModule({
@@ -49,15 +53,15 @@ const routes: Routes = [
         AboutUsComponent,
         SignUpComponent,
         LoginComponent,
-        EqualDirective,
-        ProfileComponent
+        EqualDirective
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         RouterModule.forRoot(routes),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ProfileModule
     ],
     providers: [
         UserService,

@@ -10,6 +10,9 @@ import {AboutUsComponent} from './about-us/about-us.component';
 import {LoginComponent} from './login/login.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
 import {ProfileComponent} from './profile/profile.component';
+import { MycalendarComponent } from './profile/mycalendar/mycalendar.component';
+import { MymenusComponent } from './profile/mymenus/mymenus.component';
+import { MyprofileComponent } from './profile/myprofile/myprofile.component';
 
 @NgModule({
     imports: [
@@ -18,7 +21,7 @@ import {ProfileComponent} from './profile/profile.component';
     declarations: [
         MainContentComponent, HomepageComponent, InterestingComponent, CalculatorComponent,
         DishesListComponent, HandbookComponent, AboutUsComponent, LoginComponent,
-        SignUpComponent, ProfileComponent]
+        SignUpComponent, ProfileComponent, MycalendarComponent, MymenusComponent, MyprofileComponent]
 })
 export class MainContentModule {
 }

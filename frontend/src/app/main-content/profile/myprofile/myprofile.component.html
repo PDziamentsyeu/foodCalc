@@ -1,0 +1,57 @@
+<form class="ui form" (ngSubmit)="save()" [formGroup]="profileForm">
+  <h4 class="ui dividing header">Personal data</h4>
+  <div class="">
+    <div class="fields">
+      <div class="six wide field">
+        <input type="text" formControlName="firstName" placeholder="First name">
+      </div>
+      <div class="six wide field">
+        <input type="text" formControlName="lastName" placeholder="Last name">
+      </div>
+      <!--<div class="two wide field">-->
+        <!--<input type="file" formControlName="foto" placeholder="Foto">-->
+      <!--</div>-->
+    </div>
+    <div class="fields">
+      <div class="three wide field">
+        <input type="date" formControlName="birthday" placeholder="Birthday" useValueAsDate>
+      </div>
+      <div class="three wide field">
+        <input type="text" formControlName="height" placeholder="Height">
+      </div>
+      <div class="three wide field">
+        <input type="text" formControlName="weight" placeholder="Weight">
+      </div>
+      <div class="three wide field">
+        <label>Koeff</label>
+        <label>{{getKoef()}}</label>
+      </div>
+    </div>
+  </div>
+  <h4 class="ui dividing header">Global data</h4>
+  <div class="field">
+    <div class="two fields">
+      <div class="field">
+        <label>Country</label>
+        <input type="text" placeholder="Country" formControlName="country">
+      </div>
+      <div class="field">
+        <label>City</label>
+        <input type="text" placeholder="City" formControlName="city">
+      </div>
+    </div>
+  </div>
+  <h4 class="ui dividing header">About yourself</h4>
+  <div class="field">
+    <label>Some words about yourself</label>
+    <input type="text" formControlName="about">
+  </div>
+  <div class="field">
+    <label>Preferences</label>
+    <input type="text" formControlName="preferences">
+  </div>
+  <div tabindex="0">
+    <button class="ui button">Save</button>
+    <button class="ui button">Cancel</button>
+  </div>
+</form>
