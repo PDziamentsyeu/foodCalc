@@ -1,72 +1,30 @@
 ###Food calculator v0.0.1
 
 To start project need to be installed:
-*1) JDK v8 or later*
-*2) Maven*
-*3) Npm*
-*4) MySql* 
-	*    a)configuration of DB connection stored in the application.properties file*
-	*    b)you need to configure your database as provided in config*
-*5) tomcat app server*
+1. JDK v8 or later
+2. Maven
+3. Npm
+4. MySql 
+	   a. configuration of DB connection stored in the application.properties file
+	   b. you need to configure your database as provided in config
+5. tomcat app server
 
 ###To run app use mvn spring-boot:run command or run-> java Application from menu of IDE
 
 
-###REST DESCRIPTION (will be moved to swagger files)
+###REST DESCRIPTION 
+	***ACOUNT***
 
-Account REST:
-localhost:8080/accounts
-
-required fields: email - string, password-string, isAdmin - bollean (false by default)
-create :
-```{
-    "email":"some@emai.com",
-    "password":"Qwerty123456",
-    "isAdmin":false
-}
-getAll:
-[{
-   "id": 1,
-   "email": "some@emai.com",
-   "password": "Qwerty123456",
-   "userDetail":    {
-      "id": 4,
-      "name": null,
-      "nickName": null,
-      "weight": 0,
-      "height": 0
-   },
-   "admin": false
-}]
-
-delete: localhost:8080/accounts/{id}
+1. GET   ***/accounts - get All accounts - token Only ADMIN
+2. POST  ***/accounts/login - login - `{"email":"email", "password":"password"}` - free access
+3. POST  ***/accounts/account -  sing up -` {"email":"email", "password":"password", "role" :{"roleName":"USER"}}` role should be set by default value "USER". Admin have possibilitie to change this role in future -free access
+4. PUT   ***/accounts/account - change pass - `{"email":"email", "password":"password"}` - all authorized users 
+5. GET   ***/accounts/account - getAccountInfo -` "token in authorization header"` - all authorized users
+6. GET   ***/accounts/account/{id} - delete Account -` "for administrators" token and accountID `for account which should be deleted - only ADMIN  
+7. POST  ***/accounts/account/user - update user info for account - ` {fields from user table}+token `- all authorized users
+8. GET   ***/accounts/account/user - get user info for account -` token` - all authorized users
 
 
-Users REST:
-localhost:8080/users
 
-POST path: localhost:8080/users - create user command request pattern:
-{
-	"name": "Some name",
-	"nickName": "some nickname",
-	"email": "some@email.com'"
-} 
 
-GET path: localhost:8080/users/all - get all users response pattern
-[{
-   "id": null,
-   "uuid": null,
-   "createDate": null,
-   "createPrincipal": null,
-   "updateDate": null,
-   "updatePrincipal": null,
-   "name": "Some name",
-   "nickName": "some nickname",
-   "email": "some@email.com'",
-   "weight": 0,
-   "height": 0,
-   "new": true
-}]
-
-```
 

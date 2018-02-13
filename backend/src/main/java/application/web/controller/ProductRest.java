@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import main.java.application.web.model.Product;
-import main.java.application.web.model.ProductType;
+import main.java.application.web.model.products.Product;
+import main.java.application.web.model.products.ProductType;
 import main.java.application.web.repository.ProductRepository;
 import main.java.application.web.repository.ProductTypeRepository;
 

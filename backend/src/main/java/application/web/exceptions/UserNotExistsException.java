@@ -1,7 +1,10 @@
 package main.java.application.web.exceptions;
 
 public class UserNotExistsException extends Exception {
-    public UserNotExistsException(final String message) {
+
+	private static final long serialVersionUID = 1L;
+
+	public UserNotExistsException(final String message) {
         super(message);
     }
 

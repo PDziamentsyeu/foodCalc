@@ -1,4 +1,4 @@
-package main.java.application.web.model;
+package main.java.application.web.model.products;
 
 import java.util.List;
 
@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "product_types")
 public class ProductType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
