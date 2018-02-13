@@ -21,7 +21,7 @@ export class UserService {
     }
 
     getFullUserInfo(): Observable<Profile> {
-        return this.http.get(Constants.HOME_URL + 'accounts/account', this.jwt())
+        return this.http.get(Constants.HOME_URL + 'accounts/account/user', this.jwt())
             .map((response: Response) => response.json());
 
     }

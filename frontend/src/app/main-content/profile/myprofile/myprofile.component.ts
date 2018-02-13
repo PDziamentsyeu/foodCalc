@@ -21,7 +21,7 @@ export class MyprofileComponent implements OnInit {
     ngOnInit() {
         this.route.data
             .subscribe((data: { profile: Profile }) => {
-                this.profile = data.profile[0];
+                this.profile = data.profile;
             });
         this.createForm();
     }

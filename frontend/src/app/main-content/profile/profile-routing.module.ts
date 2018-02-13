@@ -15,7 +15,7 @@ const profileRoutes: Routes = [
         component: ProfileComponent,
         children: [
             {
-                path: '',
+                path: 'profile',
                 children: [
                     { path: '', pathMatch: 'full', redirectTo: 'myprofile' },
                     { path: 'registration', component: RegistrationComponent },
