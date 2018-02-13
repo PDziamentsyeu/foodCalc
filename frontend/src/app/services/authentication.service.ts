@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Constants} from './const';
-import {JwtHelperService} from '@auth0/angular-jwt';
+import {Router} from '@angular/router';
 
 
 @Injectable()
 export class AuthenticationService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private router: Router) { }
     login(email: string, password: string) {
         return this.http.post(Constants.HOME_URL + 'accounts/login', { email: email, password: password })
             .map((response: Response) => {
@@ -24,6 +24,7 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('token');
+        this.router.navigate(['login']);
     }
 
     public isAuthenticated(): boolean {

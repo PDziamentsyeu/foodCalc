@@ -12,11 +12,11 @@ import {AuthGuardService} from "../../services/authentication.guard";
 
 const profileRoutes: Routes = [
     {
-        path: '',
+        path: 'profile',
         component: ProfileComponent,
         children: [
             {
-                path: 'profile',
+                path: '',
                 children: [
                     { path: '', pathMatch: 'full', redirectTo: 'myprofile' },
                     { path: 'registration', component: RegistrationComponent },
@@ -24,10 +24,10 @@ const profileRoutes: Routes = [
                     { path: 'mycalendar', component: MycalendarComponent },
                     { path: 'mymenus', component: MymenusComponent },
                     { path: 'myprofile', component: MyprofileComponent , resolve: {profile: ProfileResolveComponent}}
-                ],
-                canActivate: [AuthGuardService]
+                ]
             }
-        ]
+        ],
+        canActivate: [AuthGuardService]
     }
 ];
 
