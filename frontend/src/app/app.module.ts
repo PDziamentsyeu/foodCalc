@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {HttpModule} from '@angular/http';
@@ -25,6 +25,8 @@ import {MymenusComponent} from "./main-content/profile/mymenus/mymenus.component
 import {MycalendarComponent} from "./main-content/profile/mycalendar/mycalendar.component";
 import {MyprofileComponent} from "./main-content/profile/myprofile/myprofile.component";
 import {ProfileModule} from "./main-content/profile/profile.module";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {AuthGuardService} from "./services/authentication.guard";
 
 const routes: Routes = [
     // basic routes
@@ -67,7 +69,10 @@ const routes: Routes = [
         UserService,
         AuthenticationService,
         ProfileResolveComponent,
-        DatePipe
+        DatePipe,
+        JwtHelperService,
+        AuthGuardService
+
     ],
     bootstrap: [AppComponent]
 })

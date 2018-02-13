@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Constants} from './const';
+import {JwtHelperService} from '@auth0/angular-jwt';
+
 
 @Injectable()
 export class AuthenticationService {
@@ -22,6 +24,13 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('token');
+    }
+
+    public isAuthenticated(): boolean {
+        const token = localStorage.getItem('token');
+        // Check whether the token is expired and return
+        // true or false
+        return !!token;
     }
 
 }

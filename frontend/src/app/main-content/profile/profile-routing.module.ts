@@ -7,6 +7,7 @@ import {MyprofileComponent} from './myprofile/myprofile.component';
 import {ProfileResolveComponent} from "./profile.resolve.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {InterestsComponent} from "./interests/interests.component";
+import {AuthGuardService} from "../../services/authentication.guard";
 
 
 const profileRoutes: Routes = [
@@ -23,7 +24,8 @@ const profileRoutes: Routes = [
                     { path: 'mycalendar', component: MycalendarComponent },
                     { path: 'mymenus', component: MymenusComponent },
                     { path: 'myprofile', component: MyprofileComponent , resolve: {profile: ProfileResolveComponent}}
-                ]
+                ],
+                canActivate: [AuthGuardService]
             }
         ]
     }
