@@ -20,8 +20,8 @@ public class Product {
 	private int caloricity;
 	
 	@ManyToOne
-	@JoinColumn(name = "product")
-	private ProductType type;
+	@JoinColumn(name = "productType")
+	private ProductType productType;
 
 	public Product() {
 		super();
@@ -51,17 +51,17 @@ public class Product {
 		this.caloricity = caloricity;
 	}
 
-	public ProductType getType() {
-		return type;
+	public ProductType getProductType() {
+		return productType;
 	}
 
-	public void setType(ProductType type) {
-		this.type = type;
+	public void setProductType(ProductType type) {
+		this.productType = type;
 	}
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", caloricity=" + caloricity + ", type=" + type + "]";
+		return "Product [id=" + id + ", name=" + name + ", caloricity=" + caloricity + ", type=" + productType + "]";
 	}
 	
 	
