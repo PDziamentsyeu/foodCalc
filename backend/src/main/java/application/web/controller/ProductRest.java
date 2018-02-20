@@ -36,8 +36,8 @@ public class ProductRest {
     public ResponseEntity<?> create(@RequestBody Product forCreate) {
         LOGGER.info("create product with data: "+forCreate.toString());
         ProductType type = new ProductType();
-        type = productTypeRepository.findById(forCreate.getType().getId());
-        forCreate.setType(type);
+        type = productTypeRepository.findById(forCreate.getProductType().getId());
+        forCreate.setProductType(type);
         Product result = productRepository.save(forCreate);
         LOGGER.info("creating of new account completed");
         return new ResponseEntity<Product>(result,HttpStatus.OK);

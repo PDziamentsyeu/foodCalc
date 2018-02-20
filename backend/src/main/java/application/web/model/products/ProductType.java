@@ -17,9 +17,9 @@ public class ProductType {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected Long id;
 	
-	private String type;
+	private String productType;
 	
-	@OneToMany(mappedBy = "type",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "productType",cascade = CascadeType.ALL)
 	private List<Product> product;
 	
 	public ProductType() {
@@ -34,12 +34,12 @@ public class ProductType {
 		this.id = id;
 	}
 
-	public String getType() {
-		return type;
+	public String getProductType() {
+		return productType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setProductType(String type) {
+		this.productType = type;
 	}
 
 	public List<Product> getProduct() {
@@ -52,7 +52,7 @@ public class ProductType {
 
 	@Override
 	public String toString() {
-		return "ProductType [id=" + id + ", type=" + type + ", product=" + product + "]";
+		return "ProductType [id=" + id + ", type=" + productType + ", product=" + product + "]";
 	}
 	
 	
