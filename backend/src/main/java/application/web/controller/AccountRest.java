@@ -65,7 +65,7 @@ public class AccountRest {
 	/*--------------------------------Create operation ----------------------------*/
 	@PostMapping("/account")
 	public ResponseEntity<?> create(@RequestBody Account forCreate) throws AuthorizationException {
-		LOGGER.info("create account with data: " + forCreate.toString());	
+		LOGGER.info("create account with data: " + forCreate.getEmail());	
 		Account result = accountService.checkAndCreateUser(forCreate);
 		return new ResponseEntity<Account>(result, HttpStatus.OK);
 
