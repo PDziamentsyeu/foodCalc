@@ -1,9 +1,11 @@
 package main.java.application.web.model.recipes;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,8 +19,30 @@ public class Recipe {
 
 	private int caloricity;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	private DishType dishType;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Description recipeDescription;
+	
 	public Recipe() {
 		super();
+	}
+	
+	public DishType getDishType() {
+		return dishType;
+	}
+
+	public void setDishType(DishType dishType) {
+		this.dishType = dishType;
+	}
+
+	public Description getRecipeDescription() {
+		return recipeDescription;
+	}
+
+	public void setRecipeDescription(Description recipeDescription) {
+		this.recipeDescription = recipeDescription;
 	}
 
 	public Long getId() {

@@ -44,7 +44,7 @@ public class ProductRest {
     }
 	
 	/*--------------------------------Retrieve all ----------------------------*/
-    @GetMapping()
+    @GetMapping
     public @ResponseBody Iterable<Product> listAllProducts() {
         return productRepository.findAll();
     }

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -12,6 +13,9 @@ public class DishType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected Long id;
+	
+	@OneToOne(mappedBy="dishType")
+	private Recipe recipe;
 	
 	private String dishType;
 
@@ -33,6 +37,14 @@ public class DishType {
 
 	public void setDishType(String dishType) {
 		this.dishType = dishType;
+	}
+
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
 	}
 
 	@Override
