@@ -1,7 +1,9 @@
 package main.java.application.web.exceptions;
 
 public class AuthorizationException extends Exception {
-    public AuthorizationException(final String message) {
+	private static final long serialVersionUID = 1L;
+
+	public AuthorizationException(final String message) {
         super(message);
     }
 

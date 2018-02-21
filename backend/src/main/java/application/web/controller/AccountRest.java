@@ -1,6 +1,5 @@
 package main.java.application.web.controller;
 
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -24,8 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import main.java.application.web.exceptions.AuthorizationException;
 import main.java.application.web.exceptions.EntityCreateException;
 import main.java.application.web.exceptions.EntityDeleteException;
-import main.java.application.web.exceptions.UserConflictException;
-import main.java.application.web.exceptions.UserNotExistsException;
+import main.java.application.web.exceptions.EntityDuplicateException;
+import main.java.application.web.exceptions.EntityExistsException;
+import main.java.application.web.exceptions.EntityNotFoundException;
 import main.java.application.web.model.Account;
 import main.java.application.web.model.User;
 import main.java.application.web.model.dto.AccountUpdateDto;
@@ -56,7 +56,7 @@ public class AccountRest {
 	/*--------------------------------Login operation ----------------------------*/
 	@PostMapping("/login")
 	public ResponseEntity<LoginRequestDto> login(@RequestBody @Valid final LoginDto loginForm)
-			throws UserNotExistsException, AuthorizationException {
+			throws AuthorizationException, EntityNotFoundException {
 		final Account account = accountService.checkPasswordAndGetUser(loginForm.getEmail(), loginForm.getPassword());
 		String token = JwtService.generateToken(account.getEmail(), account.getId(), account.getRole().getRoleName());
 		return new ResponseEntity<LoginRequestDto>(new LoginRequestDto(token), HttpStatus.OK);
@@ -64,35 +64,38 @@ public class AccountRest {
 
 	/*--------------------------------Create operation ----------------------------*/
 	@PostMapping("/account")
-	public ResponseEntity<?> create(@RequestBody Account forCreate) throws AuthorizationException {
-		LOGGER.info("create account with data: " + forCreate.getEmail());	
+	public ResponseEntity<Account> create(@RequestBody Account forCreate) throws AuthorizationException {
+		LOGGER.info("create account with data: " + forCreate.getEmail());
 		Account result = accountService.checkAndCreateUser(forCreate);
 		return new ResponseEntity<Account>(result, HttpStatus.OK);
 
 	}
-	
+
 	@PostMapping("/account/admin")
-	public ResponseEntity<?> createAdmin(@RequestBody Account forCreate) throws AuthorizationException {
-		LOGGER.info("create account with data: " + forCreate.toString());	
+	public ResponseEntity<Account> createAdmin(@RequestBody Account forCreate) throws AuthorizationException {
+		LOGGER.info("create account with data: " + forCreate.toString());
 		Account result = accountService.checkAndCreateAdmin(forCreate);
 		return new ResponseEntity<Account>(result, HttpStatus.OK);
 
 	}
 
-	@JwtAuth(value={"ADMIN", "USER"})
+	@JwtAuth(value = { "ADMIN", "USER" })
 	@PutMapping("/account")
-	public ResponseEntity<Void> changePassword(@RequestBody @Valid final AccountUpdateDto accountUpdateDto,
-			final HttpServletRequest request)
-			throws JwtParseClaimsException, UserNotExistsException, AuthorizationException, UserConflictException {
+	public ResponseEntity<?> changePasswordOrEmail(@RequestBody final AccountUpdateDto accountUpdateDto,
+			final HttpServletRequest request) throws JwtParseClaimsException, AuthorizationException {
 		final UserClaims claims = JwtService.getUserClaims(request);
-		accountService.updateAccount(claims.getId(), accountUpdateDto.getEmail(), accountUpdateDto.getPassword(),
-				accountUpdateDto.getNewPassword());
-		return new ResponseEntity<>(HttpStatus.OK);
+		Account result = null;
+		try {
+			result = accountService.updateAccount(claims.getId(), accountUpdateDto.getEmail(),
+					accountUpdateDto.getPassword(), accountUpdateDto.getNewPassword());
+		} catch (EntityNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<Account>(result, HttpStatus.OK);
 	}
 
 	/*--------------------------------Single operation ----------------------------*/
-	@JwtAuth(value={"ADMIN", "USER"})
-	@SuppressWarnings("unchecked")
+	@JwtAuth(value = { "ADMIN", "USER" })
 	@GetMapping("/account")
 	public ResponseEntity<?> getAccount(final HttpServletRequest request) throws JwtParseClaimsException {
 		Long id = JwtService.getUserClaims(request).getId();
@@ -100,7 +103,7 @@ public class AccountRest {
 		Account account = accountRepository.findById(id);
 		if (account == null) {
 			LOGGER.error("Account with id {} not found.", id);
-			return new ResponseEntity(new EntityNotFoundException("Account with id " + id + " not found"),
+			return new ResponseEntity<>(new EntityNotFoundException("Account with id " + id + " not found"),
 					HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Account>(account, HttpStatus.OK);
@@ -108,14 +111,14 @@ public class AccountRest {
 
 	/*--------------------------------Delete operation ----------------------------*/
 	@JwtAuth("ADMIN")
-	@SuppressWarnings("unchecked")
 	@DeleteMapping("/account/{id}")
-	public ResponseEntity<?> delete(final HttpServletRequest request, @PathVariable("id") long id) throws JwtParseClaimsException {
+	public ResponseEntity<?> delete(final HttpServletRequest request, @PathVariable("id") long id)
+			throws JwtParseClaimsException {
 		LOGGER.info("Fetching & Deleting Account with id {}", id);
 		Account account = accountRepository.findById(id);
 		if (account == null) {
 			LOGGER.error("Unable to delete. Account with id {} not found.", id);
-			return new ResponseEntity(
+			return new ResponseEntity<>(
 					new EntityDeleteException("Unable to delete. Account with id " + id + " not found."),
 					HttpStatus.NOT_FOUND);
 		}
@@ -125,15 +128,14 @@ public class AccountRest {
 	}
 
 	/*--------------------------------Retrieve all ----------------------------*/
-	@JwtAuth(value={"ADMIN"})
+	@JwtAuth(value = { "ADMIN" })
 	@GetMapping()
 	public @ResponseBody Iterable<Account> listAllAccounts() {
 		return accountRepository.findAll();
 	}
 
 	/*--------------------------------Userifo operations ----------------------------*/
-	@JwtAuth(value={"ADMIN", "USER"})
-	@SuppressWarnings("unchecked")
+	@JwtAuth(value = { "ADMIN", "USER" })
 	@GetMapping(value = "/account/user")
 	public ResponseEntity<?> getUserInfo(final HttpServletRequest request) throws JwtParseClaimsException {
 		Long id = JwtService.getUserClaims(request).getId();
@@ -141,25 +143,20 @@ public class AccountRest {
 		Account account = accountRepository.findById(id);
 		if (account == null) {
 			LOGGER.error("Account with id {} not found.", id);
-			return new ResponseEntity(new EntityNotFoundException("Account with id " + id + " not found"),
+			return new ResponseEntity<>(new EntityNotFoundException("Account with id " + id + " not found"),
 					HttpStatus.NOT_FOUND);
 		}
 		User userInfo = userRepository.findById(account.getUserDetail().getId());
 		return new ResponseEntity<User>(userInfo, HttpStatus.OK);
 	}
 
-	@JwtAuth(value={"ADMIN", "USER"})
-	@SuppressWarnings("unchecked")
-	@PostMapping(value ="/account/user")
-	public ResponseEntity<?> updateUserInfo(final HttpServletRequest request, @RequestBody User forUpdate) throws JwtParseClaimsException {
+	@JwtAuth(value = { "ADMIN", "USER" })
+	@PostMapping(value = "/account/user")
+	public ResponseEntity<?> updateUserInfo(final HttpServletRequest request, @RequestBody User forUpdate)
+			throws JwtParseClaimsException {
 		Long id = JwtService.getUserClaims(request).getId();
 		LOGGER.info("Updating UserDetails for Account with id {}", id);
 		Account account = accountRepository.findById(id);
-		if (account == null) {
-			LOGGER.error("Account with id {} not found.", id);
-			return new ResponseEntity(new EntityNotFoundException("Account with id " + id + " not found"),
-					HttpStatus.NOT_FOUND);
-		}
 		User userInfo = userRepository.findById(account.getUserDetail().getId());
 		userInfo = userRepository.save(forUpdate);
 		account.setUserDetail(userInfo);
@@ -169,16 +166,20 @@ public class AccountRest {
 	}
 
 	/*--------------------------------Exception handling ----------------------------*/
-	@ExceptionHandler({ UserNotExistsException.class, AuthorizationException.class, JwtParseClaimsException.class })
+	@ExceptionHandler({ AuthorizationException.class, JwtParseClaimsException.class })
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public void handleAuthorizationExceptions(final Exception exception) {
+	public ResponseEntity<?> handleAuthorizationExceptions(final Exception exception) {
 		LOGGER.info(exception.getMessage());
+		return new ResponseEntity<>(exception.getMessage(),
+				HttpStatus.FORBIDDEN);
 	}
 
-	@ExceptionHandler({UserConflictException.class, EntityCreateException.class})
+	@ExceptionHandler({ EntityDuplicateException.class, EntityExistsException.class, EntityCreateException.class })
 	@ResponseStatus(HttpStatus.CONFLICT)
-	public void handleConflicts(final UserConflictException exception) {
+	public  ResponseEntity<?> handleConflicts(final RuntimeException exception) {
 		LOGGER.info(exception.getMessage());
-	}
+		return new ResponseEntity<>(exception.getMessage(),
+				HttpStatus.CONFLICT);
+	} 
 
 }

@@ -9,7 +9,7 @@ public class EntityCreateException extends RuntimeException {
 	private static final long serialVersionUID = -218398366618725495L;
 
 	public EntityCreateException(String userId) {
-			super("could not find user '" + userId + "'.");
+			super("could not create user '" + userId + "'.");
 		}
 
 }

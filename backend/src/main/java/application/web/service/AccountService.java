@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import main.java.application.web.exceptions.AuthorizationException;
 import main.java.application.web.exceptions.EntityCreateException;
-import main.java.application.web.exceptions.UserConflictException;
-import main.java.application.web.exceptions.UserNotExistsException;
+import main.java.application.web.exceptions.EntityExistsException;
+import main.java.application.web.exceptions.EntityNotFoundException;
 import main.java.application.web.model.Account;
 import main.java.application.web.model.Role;
 import main.java.application.web.model.User;
@@ -33,10 +33,10 @@ public class AccountService {
 
 	@Transactional
 	public Account checkPasswordAndGetUser(final String email, final String password)
-			throws UserNotExistsException, AuthorizationException {
+			throws AuthorizationException, EntityNotFoundException {
 		final Account account = accountRepository.findByEmail(email);
 		if (account == null) {
-			throw new UserNotExistsException(String.format("User [%s] does not exist", email));
+			throw new EntityNotFoundException(String.format("User [%s] does not exist", email));
 		}
 		if (!account.getPassword().equals(PasswordUtils.encryptPassword(password))) {
 			throw new AuthorizationException("Passwords does not matches");
@@ -46,14 +46,16 @@ public class AccountService {
 
 	@Transactional
 	public Account updateAccount(final long id, final String email, final String currentPassword,
-			final String newPassword) throws UserNotExistsException, AuthorizationException, UserConflictException {
+			final String newPassword) throws  AuthorizationException, EntityNotFoundException {
+		LOGGER.info("processing update account data:{} {} {}",id,email,currentPassword);
 		final Account accountForCheck = accountRepository.findByEmail(email);
+		
 		if (accountForCheck != null && accountForCheck.getId() != id) {
-			throw new UserConflictException(String.format("User with name [%s] already exists", email));
+			throw new EntityExistsException(String.format("User with name [%s] already exists", email));
 		}
 		final Account account = accountRepository.findOne(id);
 		if (account == null) {
-			throw new UserNotExistsException(String.format("User [%s] does not exist", id));
+			throw new EntityNotFoundException(String.format("User [%s] does not exist", id));
 		}
 		if (newPassword != null) {
 			if (!account.getPassword().equals(PasswordUtils.encryptPassword(currentPassword))) {

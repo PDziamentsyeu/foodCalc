@@ -44,6 +44,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                         try {
                             if (token != null) {
                                 role = JwtService.getRoleFromToken(token);
+                                LOG.info("role from token: {}",role);
                             }
                             if (role == null) {
                                 response.sendError(401);

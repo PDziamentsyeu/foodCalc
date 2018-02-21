@@ -17,7 +17,7 @@ import main.java.application.web.security.jwt.JwtInterceptor;
 public class WebConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**");
+		registry.addMapping("/**").allowedMethods("GET", "POST", "OPTIONS", "PUT","DELETE");
 	}
 	@Override
     public void addInterceptors(final InterceptorRegistry registry) {
