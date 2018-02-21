@@ -28,7 +28,7 @@ export class SignUpComponent implements OnInit {
             .subscribe(
                 data => {
                     // set success message and pass true paramater to persist the message after redirecting to the login page
-                    this.router.navigate(['/profile']);
+                    this.router.navigate(['/login']);
                 },
                 error => {
                     this.loading = false;

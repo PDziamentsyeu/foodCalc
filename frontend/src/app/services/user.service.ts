@@ -14,10 +14,8 @@ export class UserService {
     }
 
     create(user: Account) {
-        return this.http.post(Constants.HOME_URL + 'users', user, this.jwt()).map((response: Response) => {
-            localStorage.setItem('token', JSON.stringify(user));
-            response.json();
-        });
+        return this.http.post(Constants.HOME_URL + 'accounts/account/', { email: user.email, password: user.password })
+            .map((response: Response) => response.json());
     }
 
     getFullUserInfo(): Observable<Profile> {
